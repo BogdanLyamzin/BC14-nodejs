@@ -12,14 +12,14 @@ const router = express.Router();
 
 router.get("/", auth, ctrlWrapper(ctrl.getAll));
 
-router.get("/:id", isValidId, ctrlWrapper(ctrl.getById));
+router.get("/:id", auth, isValidId, ctrlWrapper(ctrl.getById));
 
-router.post("/", validation(schemas.addBook), ctrlWrapper(ctrl.add));
+router.post("/", auth, validation(schemas.addBook), ctrlWrapper(ctrl.add));
 
-router.put("/:id", isValidId, validation(schemas.addBook), ctrlWrapper(ctrl.updateById));
+router.put("/:id", auth, isValidId, validation(schemas.addBook), ctrlWrapper(ctrl.updateById));
 
-router.patch("/:id/favorite", isValidId, validation(schemas.updateFavorite), ctrlWrapper(ctrl.updateFavorite));
+router.patch("/:id/favorite", auth, isValidId, validation(schemas.updateFavorite), ctrlWrapper(ctrl.updateFavorite));
 
-router.delete("/:id", isValidId, ctrlWrapper(ctrl.removeById));
+router.delete("/:id", auth, isValidId, ctrlWrapper(ctrl.removeById));
 
 module.exports = router;

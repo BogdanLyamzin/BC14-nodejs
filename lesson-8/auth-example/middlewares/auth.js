@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const {User} = require("../models/user");
 
 const {createError} = require("../helpers");
+
 /*
 1. Извлечь из заголовков запроса заголовок Authorization.
 2. Разделить заголовок на 2 слова - в первом должно быть "Bearer", а 
@@ -32,11 +33,11 @@ const auth = async (req, res, next)=> {
         }
         const {id} = jwt.verify(token, SECRET_KEY);
         const user = await User.findById(id);
-        if(!user){
+        if(!user || !user.token){
             throw createError(401);
         }
         req.user = user;
-        next()
+        next();
     } catch (error) {
         if(error.message === "Invalid signature"){
             error.status = 401;

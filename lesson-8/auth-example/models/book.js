@@ -2,7 +2,7 @@ const {Schema, model} = require("mongoose");
 const Joi = require("joi");
 
 const genres = ["love", "fantastic"];
-const isbnRegexp = /[0-9]{3}-[0-9]{1}-[0-9]{3}-[0-9]{5}-[0-9]{1}/;
+// const isbnRegexp = /[0-9]{3}-[0-9]{1}-[0-9]{3}-[0-9]{5}-[0-9]{1}/;
 
 const bookSchema = Schema({
     title: {
@@ -22,11 +22,9 @@ const bookSchema = Schema({
         enum: genres,
         required: true
     },
-    isbn: {
-        type: String,
-        match: isbnRegexp,
-        required: true,
-        unique: true
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
     }
 }, {versionKey: false, timestamps: true});
 
@@ -35,7 +33,6 @@ const addBook = Joi.object({
     author: Joi.string().required(),
     favorite: Joi.boolean(),
     genre: Joi.string().valid(...genres).required(),
-    isbn: Joi.string().pattern(isbnRegexp).required()
 });
 
 const updateFavorite = Joi.object({
